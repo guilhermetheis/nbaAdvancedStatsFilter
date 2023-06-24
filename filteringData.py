@@ -6,6 +6,8 @@
 
 import pandas as pd
 
+##### BBRef
+
 init_df = pd.read_html('https://www.basketball-reference.com/leagues/NBA_2023_advanced.html#advanced_stats')[0]
 
 # removing stuff out
@@ -65,15 +67,15 @@ df_C = df_C[(df_C['G'].astype(float) >= 50)].reset_index().drop(['index'],axis=1
 
 # to markdown
 
-df_C.to_csv('Centers.csv', stralign='left',numalign='center', index=False, floatfmt='.3f')
-df_SG.to_csv('Shooting Guards.csv', stralign='left',numalign='center', index=False, floatfmt='.3f')
-df_PG.to_csv('Point Guards.csv', stralign='left',numalign='center', index=False, floatfmt='.3f')
-df_SF.to_csv('Small Forwards.csv', stralign='left',numalign='center', index=False, floatfmt='.3f')
-df_PF.to_csv('Power Forwards.csv', stralign='left',numalign='center', index=False, floatfmt='.3f')
+df_C.to_csv('data/BBRef Centers.csv')
+df_SG.to_csv('data/BBRef Shooting Guards.csv')
+df_PG.to_csv('data/BBRef Point Guards.csv')
+df_SF.to_csv('data/BBRef Small Forwards.csv')
+df_PF.to_csv('data/BBRef Power Forwards.csv')
 
 ##### NBA Stats Advanced
 
-nbaStats = pd.read_csv('data.csv')
+nbaStats = pd.read_csv('data/nbaStats.csv')
 
 nbaStats = nbaStats.iloc[:, ~nbaStats.columns.str.contains('^Unnamed')]
 
@@ -88,19 +90,21 @@ nbaStats = nbaStats[(nbaStats['USG%'].astype(float) <= 20)].reset_index().drop([
 nbaStats = nbaStats[(nbaStats['OFFRTG'].astype(float) >= 114.3)].reset_index().drop(['index'],axis=1)
 nbaStats = nbaStats[(nbaStats['DEFRTG'].astype(float) <= 110.3)].reset_index().drop(['index'],axis=1)
 
-nbaStats.to_markdown('NBA Advanced stats.csv')
+nbaStats.to_csv('data/NBA Advanced stats.csv')
 
-#RAPTOR
-raptor = pd.read_csv('latest_RAPTOR_by_player.csv')
+##### RAPTOR
+raptor = pd.read_csv('data/latest_RAPTOR_by_player.csv')
 raptor = raptor[(raptor['mp'].astype(float) >= 500)].reset_index().drop(['index'],axis=1)
 raptor = raptor[(raptor['raptor_defense'].astype(float) >= 0)].reset_index().drop(['index'],axis=1)
 raptor = raptor[(raptor['raptor_offense'].astype(float) >= -0.5)].reset_index().drop(['index'],axis=1)
 raptor = raptor[(raptor['war_reg_season'].astype(float) >= 1)].reset_index().drop(['index'],axis=1)
 raptor = raptor[(raptor['raptor_onoff_total'].astype(float) >= 0)].reset_index().drop(['index'],axis=1)
 
-# LEBRON 
+raptor.to_csv('data/Raptor stats.csv')
 
-LEBRON  = pd.read_csv('LEBRON.csv', thousands=',')
+##### LEBRON 
+
+LEBRON  = pd.read_csv('data/LEBRON.csv', thousands=',')
 LEBRON = LEBRON[(LEBRON['Minutes'].astype(float) >= 500)].reset_index().drop(['index'],axis=1)
 LEBRON = LEBRON[(LEBRON['LEBRON'].astype(float) >= -0.5)].reset_index().drop(['index'],axis=1)
 LEBRON = LEBRON[(LEBRON['O-LEBRON'].astype(float) >= -0.5)].reset_index().drop(['index'],axis=1)
@@ -109,3 +113,4 @@ LEBRON = LEBRON[(LEBRON['WAR'].astype(float) >= 0)].reset_index().drop(['index']
 LEBRON = LEBRON[(LEBRON['BOX-LEBRON'].astype(float) >= 0)].reset_index().drop(['index'],axis=1)
 LEBRON = LEBRON[(LEBRON['BOX-D-LEBRON'].astype(float) >= 0)].reset_index().drop(['index'],axis=1)
 
+raptor.to_csv('data/LEBRON stats.csv')
